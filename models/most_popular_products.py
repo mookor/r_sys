@@ -1,10 +1,10 @@
 from utils.prepare_data import Data_worker
 import pandas as pd
-
+from tqdm import tqdm
 
 def calc_most_popular_per_user(transactions, uniq_users):
     counter_all_users = {}
-    for user in uniq_users:
+    for user in tqdm(uniq_users):
         user_transactions = transactions[transactions["user_id"] == user]
         list_of_orders = user_transactions["product_id"]
         order_counter = list_of_orders.value_counts()

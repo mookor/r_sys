@@ -4,7 +4,7 @@ from utils.prepare_data import Data_worker
 from tqdm import tqdm
 import pandas as pd
 import implicit
-
+import pickle
 
 class Knn:
     def __init__(self, data, K=1):
@@ -84,18 +84,25 @@ class Knn:
                 users_dict[user] = " ".join(str(x) for x in users_dict[user])
         df_sub = pd.DataFrame(users_dict.items(), columns=["user_id", "product_id"])
         df_sub.to_csv(path, index=False)
+    def save_model(self,weights_path):
+        self.model.save(weights_path)
+    def load_model(self,weights_path):
+        self.model  = implicit.nearest_neighbours.CosineRecommender(K=self.K)
+        self.model.load(weights_path)
 
+if __name__ == "__main__":
+    d = Data_worker()
 
-d = Data_worker()
-
-d.read_counted_df()
-d.modef_df_to_csv()
-d.read_model_df()
-d.read_products_encode_df()
-d.read_user_encode_df()
-d.read_uniq_users()
-data = d.model_df
-k = Knn(data, K=1)
-k.fit()
-asd = k.predict_all(d.uniq_users, d.encode_products, d.encode_users)
-k.create_submission(asd, d.uniq_users)
+    d.read_counted_df()
+    d.modef_df_to_csv()
+    d.read_model_df()
+    d.read_products_encode_df()
+    d.read_user_encode_df()
+    d.read_uniq_users()
+    data = d.model_df
+    k = Knn(data, K=1)
+    k.fit()
+    k.save_model(weights_path = "weights/knn_model")
+    k.load_model(weights_path= "weights/knn_model")
+    # asd = k.predict_all(d.uniq_users, d.encode_products, d.encode_users)
+    # k.create_submission(asd, d.uniq_users)
