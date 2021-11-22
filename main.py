@@ -58,17 +58,17 @@ print(predict_user)
 predict = k.predict_all(
     data_worker.uniq_users, data_worker.encode_products, data_worker.encode_users
 )  # предсказание для всех пользователей , информация о которых есть в таблице Transactions
-k.create_submission(predict, data_worker.uniq_users) # cоздание файла для kaggle
+k.create_submission(predict, data_worker.uniq_users)  # cоздание файла для kaggle
 ##################################################################################
 
 
 #  ALS - Model
 ########################################################
-k = Als(data, factors=15, iterations=1)  # инициализация als модели
-k.fit()  # обучение
-k.save_model(weights_path="weights/knn_model")  # cохранение весов
+als_model = Als(data, factors=15, iterations=1)  # инициализация als модели
+als_model.fit()  # обучение
+als_model.save_model(weights_path="weights/knn_model")  # cохранение весов
 
-predict_user = k.predict_for_user(
+predict_user = als_model.predict_for_user(
     user=1,
     encode_products=data_worker.encode_products,
     encode_users=data_worker.encode_users,
@@ -76,8 +76,10 @@ predict_user = k.predict_for_user(
 )  # предсказание для конкретного пользователя , количество предлагаемых продуктов - n
 print(predict_user)
 
-predict = k.predict_all(
+predict = als_model.predict_all(
     data_worker.uniq_users, data_worker.encode_products, data_worker.encode_users
 )  # предсказание для всех пользователей , информация о которых есть в таблице Transactions
-k.create_submission(predict, data_worker.uniq_users) # cоздание файла для kaggle
+als_model.create_submission(
+    predict, data_worker.uniq_users
+)  # cоздание файла для kaggle
 ##################################################################################
