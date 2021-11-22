@@ -74,7 +74,7 @@ als_model.create_submission(predict, data_worker.uniq_users) # cоздание �
 python -m models.most_popular_products
 ```
 ### Пайплайн
-Пример полного пайплайна можно посмотреть [здесь](https://github.com/mookor/r_sys/blob/main/main.py) 
+Пример полного пайплайна можно посмотреть [здесь](https://github.com/mookor/r_sys/blob/main/main.py)  
 запускать нужно следующим образом
 ```
 python -m main
