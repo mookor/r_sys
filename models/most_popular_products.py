@@ -22,9 +22,9 @@ def create_submissions(counter_all_users, uniq_users, path="results/top10.csv"):
     df = pd.DataFrame(counter_all_users.items(), columns=["user_id", "product_id"])
     df.to_csv(path, index=False)
 
-
-worker = Data_worker()
-worker.read_data()
-worker.read_uniq_users()
-counter_all_users = calc_most_popular_per_user(worker.transactions, worker.uniq_users)
-create_submissions(counter_all_users, worker.uniq_users)
+if __name__ == "__main__":
+    worker = Data_worker()
+    worker.read_data()
+    worker.read_uniq_users()
+    counter_all_users = calc_most_popular_per_user(worker.transactions, worker.uniq_users)
+    create_submissions(counter_all_users, worker.uniq_users)
