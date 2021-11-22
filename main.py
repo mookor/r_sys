@@ -32,8 +32,8 @@ def read_for_model_fit(data_worker):
 
 
 data_worker = Data_worker()
-read_for_model_fit(data_worker)
-
+#read_for_model_fit(data_worker)
+prepare_all_data(data_worker)
 data = data_worker.model_df
 
 k = Knn(data, K=1)
