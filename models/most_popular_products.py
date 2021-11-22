@@ -2,6 +2,7 @@ from utils.prepare_data import Data_worker
 import pandas as pd
 from tqdm import tqdm
 
+
 def calc_most_popular_per_user(transactions, uniq_users):
     counter_all_users = {}
     for user in tqdm(uniq_users):
