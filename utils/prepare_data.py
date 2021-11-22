@@ -34,12 +34,18 @@ class Data_worker:
         self.encode_products = None
 
     def read_data(self):
+        """
+        Считывание transactions и products
+        """
         self.products, self.transactions = data_utils.read_data(
             self.products_path, self.transactions_path
         )
         print("Успешно считаны основные данные")
 
     def uniq_users_to_numpy(self):
+        """
+        Функция для выделения и сохранения уникальных пользователей
+        """
         if self.transactions is None:
             raise ValueError("Данные не загружены")
         users = self.transactions["user_id"]
@@ -47,12 +53,18 @@ class Data_worker:
         print("Уникальные пользователи сохранены")
 
     def modef_df_to_csv(self):
+        """
+        Создание и сохранение датасета для обучения
+        """
         if self.counted_df is None:
             raise ValueError("Данные не загружены")
         data_utils.make_df_for_model(self.counted_df, self.model_df_path)
         print("Набор данных для обучения модели создан успешно")
 
     def counted_df_to_csv(self):
+        """
+        Создание и сохранение набора данных с подсчитанными заказами
+        """
         if self.transactions is None:
             raise ValueError("Данные не загружены")
         if self.uniq_users is None:
@@ -63,6 +75,9 @@ class Data_worker:
         print("Подсчитанный набор данных создан успешно")
 
     def make_products_encode(self):
+        """
+        Создание и сохранение энкодера для продуктов
+        """
         if self.model_df is None:
             raise ValueError("Данные не загружены")
         data_utils.make_encode_df(
@@ -71,6 +86,9 @@ class Data_worker:
         print("Данные для декодирования продуктов созданы успешно")
 
     def make_users_encode(self):
+        """
+        Создание и сохранение энкодера для пользователей
+        """
         if self.model_df is None:
             raise ValueError("Данные не загружены")
         data_utils.make_encode_df(
@@ -79,6 +97,9 @@ class Data_worker:
         print("Данные для декодирования пользователей созданы успешно")
 
     def read_counted_df(self):
+        """
+        Считывание датасета с подсчитанными заказами
+        """
         if not os.path.exists(self.counted_df_path):
             raise OSError(
                 "Неправильный путь к датасету с подсчитанными данными / файл не существует"
@@ -87,6 +108,9 @@ class Data_worker:
         print("Успешно считаны подсчитанные данные")
 
     def read_uniq_users(self):
+        """
+        Считывание файла со списком уникальных пользователей
+        """
         if not os.path.exists(self.uniq_users_path):
             raise OSError(
                 "Неправильный путь к уникальным пользователям / файл не существует"
@@ -95,6 +119,9 @@ class Data_worker:
         print("Уникальные пользователи считаны успешно")
 
     def read_model_df(self):
+        """
+        Считывание датасета для обучения модели
+        """
         if not os.path.exists(self.model_df_path):
             raise OSError(
                 "Неправильный путь к датасету для обучения / файл не существует"
@@ -103,6 +130,9 @@ class Data_worker:
         print("Успешно считаны данные для обучения модели")
 
     def read_user_encode_df(self):
+        """
+        Считывание энкодера для пользователей
+        """
         if not os.path.exists(self.encode_users_path):
             raise OSError(
                 "Неправильный путь к енкодеру пользователей / файл не существует"
@@ -111,6 +141,9 @@ class Data_worker:
         print("Успешно считаны данные для декодирования пользователей")
 
     def read_products_encode_df(self):
+        """
+        Считывание энкодера для продуктов
+        """
         if not os.path.exists(self.encode_products_path):
             raise OSError("Неправильный путь к енкодеру продуктов / файл не существует")
         self.encode_products = pd.read_csv(self.encode_products_path)
